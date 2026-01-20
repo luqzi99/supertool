@@ -1,0 +1,90 @@
+{
+  "tool": "tool-name",
+  "version": "1.0.0",
+
+  "inherits": [
+    "global_rules",
+    "agents.tool_designer",
+    "agents.backend_builder"
+  ],
+
+  "objective": "Describe the single, clear problem this tool solves",
+
+  "scope": {
+    "included": [
+      "explicitly_allowed_behaviors"
+    ],
+    "excluded": [
+      "explicitly_disallowed_behaviors"
+    ]
+  },
+
+  "inputs": {
+    "input_name": {
+      "required": true,
+      "type": "string",
+      "description": "What this input is for",
+      "rules": [
+        "validation_rule_1",
+        "validation_rule_2"
+      ]
+    }
+  },
+
+  "processing": [
+    "pure_processing_step_1",
+    "pure_processing_step_2",
+    "no_storage",
+    "no_logging",
+    "no_side_effects"
+  ],
+
+  "outputs": {
+    "success": {
+      "description": "What a successful output looks like",
+      "format": "string | json | html",
+      "example": "example_output_here"
+    },
+    "error": {
+      "style": [
+        "human_readable",
+        "stateless",
+        "non_technical"
+      ],
+      "examples": [
+        "Example error message"
+      ]
+    }
+  },
+
+  "ux": {
+    "flow": "single_step | multi_step",
+    "fields": "minimal | moderate",
+    "output_timing": "immediate | on_submit",
+    "copy_ready": true
+  },
+
+  "security": [
+    "escape_output",
+    "prevent_xss",
+    "no_sessions",
+    "no_tracking",
+    "no_persistent_storage"
+  ],
+
+  "performance": {
+    "expected_execution_time_ms": "< 200",
+    "blocking_operations": false
+  },
+
+  "extensibility": {
+    "tool_removable": true,
+    "no_global_override": true,
+    "self_registered": true,
+    "configurable_without_code_change": false
+  },
+
+  "non_goals": [
+    "List things this tool explicitly will not do"
+  ]
+}

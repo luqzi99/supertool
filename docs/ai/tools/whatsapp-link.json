@@ -1,0 +1,64 @@
+{
+  "tool": "whatsapp-link",
+  "inherits": [
+    "global_rules",
+    "agents.tool_designer",
+    "agents.backend_builder"
+  ],
+
+  "objective": "Generate WhatsApp chat links without saving phone numbers",
+
+  "inputs": {
+    "phone": {
+      "required": true,
+      "type": "string",
+      "rules": [
+        "digits_only",
+        "country_code_required",
+        "no_spaces",
+        "no_symbols"
+      ]
+    },
+    "message": {
+      "required": false,
+      "type": "string",
+      "rules": [
+        "url_encoded",
+        "max_length_500"
+      ]
+    }
+  },
+
+  "processing": [
+    "strip_non_numeric_phone",
+    "encode_message",
+    "no_storage",
+    "no_logging"
+  ],
+
+  "outputs": {
+    "success": [
+      "https://wa.me/{phone}",
+      "https://wa.me/{phone}?text={encoded_message}"
+    ],
+    "error": {
+      "style": [
+        "human_readable",
+        "stateless"
+      ]
+    }
+  },
+
+  "security": [
+    "escape_output",
+    "prevent_xss",
+    "no_sessions",
+    "no_tracking"
+  ],
+
+  "ux": {
+    "flow": "single_step",
+    "fields": "minimal",
+    "result": "instant"
+  }
+}

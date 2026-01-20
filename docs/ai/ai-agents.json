@@ -1,0 +1,169 @@
+{
+  "project": {
+    "name": "Supertool",
+    "description": "A modular, lightweight, no-database Laravel utility platform",
+    "core_principle": "Solve many small real problems with the smallest, cleanest possible solutions"
+  },
+
+  "global_rules": {
+    "decision_hierarchy": [
+      "simplicity_over_abstraction",
+      "readability_over_cleverness",
+      "explicit_over_magic",
+      "local_over_global",
+      "stateless_over_persistence"
+    ],
+
+    "forbidden_by_default": [
+      "database",
+      "queues",
+      "jobs",
+      "events",
+      "observers",
+      "policies",
+      "broadcasting",
+      "background_tasks",
+      "third_party_services",
+      "analytics_tracking",
+      "persistent_storage"
+    ],
+
+    "determinism": {
+      "same_input_same_output": true,
+      "randomness_allowed": false,
+      "side_effects_allowed": false
+    },
+
+    "fail_fast": {
+      "validate_early": true,
+      "silent_failure": false,
+      "error_requirements": [
+        "clear",
+        "human_readable",
+        "actionable"
+      ]
+    },
+
+    "modularity_contract": {
+      "tool_independence": true,
+      "tool_removable_without_side_effects": true,
+      "no_cross_tool_dependency": true,
+      "no_core_system_override": true
+    }
+  },
+
+  "agents": {
+    "architect": {
+      "role": "System Architect",
+      "mission": "Define, protect, and enforce overall system architecture and constraints",
+      "authority_level": "highest",
+      "must_enforce": [
+        "global_rules",
+        "modularity_contract",
+        "no_database_policy"
+      ],
+      "must_reject": [
+        "overengineering",
+        "premature_abstraction",
+        "feature_creep",
+        "global_state_introduction"
+      ],
+      "allowed_actions": [
+        "define_folder_structure",
+        "define_conventions",
+        "approve_or_reject_architecture",
+        "propose_scalable_patterns"
+      ]
+    },
+
+    "backend_builder": {
+      "role": "Laravel Backend Engineer",
+      "mission": "Implement backend logic strictly following Laravel golden rules",
+      "constraints": {
+        "controllers": {
+          "max_lines": 40,
+          "allowed_responsibilities": [
+            "request_validation",
+            "service_invocation",
+            "response_or_view_return"
+          ],
+          "forbidden": [
+            "business_logic",
+            "heavy_string_manipulation",
+            "nested_conditionals",
+            "state_management"
+          ]
+        },
+
+        "services": {
+          "stateless": true,
+          "pure_logic_preferred": true,
+          "framework_agnostic": true,
+          "http_agnostic": true,
+          "no_persistence": true,
+          "no_global_state": true
+        },
+
+        "blade_templates": {
+          "allowed": [
+            "ui_rendering",
+            "simple_conditions",
+            "simple_loops"
+          ],
+          "forbidden": [
+            "business_logic",
+            "data_transformation",
+            "input_validation",
+            "side_effects"
+          ]
+        }
+      },
+
+      "folder_convention": "app/Tools/{ToolName}/{ToolController,ToolService,ToolConfig(optional)}",
+
+      "naming_conventions": {
+        "controller": "Verb + Tool + Controller",
+        "service": "Tool + Service",
+        "view": "tools/tool-name.blade.php"
+      }
+    },
+
+    "tool_designer": {
+      "role": "Tool Designer",
+      "mission": "Design small, focused, and user-friendly tools",
+      "design_rules": {
+        "single_problem_focus": true,
+        "minimal_inputs": true,
+        "stateless": true,
+        "no_persistence": true,
+        "no_hidden_behavior": true
+      },
+      "ux_constraints": {
+        "flow": "single_step",
+        "fields": "minimal",
+        "output": "immediate",
+        "copy_ready": true
+      }
+    },
+
+    "reviewer": {
+      "role": "Strict Reviewer / Gatekeeper",
+      "mission": "Detect and reject any violation of system or tool rules",
+      "review_checks": [
+        "rule_violation",
+        "unnecessary_complexity",
+        "scope_creep",
+        "non_deterministic_behavior",
+        "hidden_side_effects",
+        "security_risk"
+      ],
+      "on_violation": {
+        "required_actions": [
+          "reject_solution",
+          "explain_violation_clearly",
+          "propose_compliant_alternative"
+        ]
+      }
+    }
+  }
+}

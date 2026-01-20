@@ -76,6 +76,89 @@
       ]
     },
 
+    "ui_engineer": {
+      "role": "UI Engineer / Frontend Implementer",
+      "mission": "Design and implement clean, minimal, and functional UI using Blade with Tailwind or Bootstrap",
+
+      "design_philosophy": [
+        "clarity_over_beauty",
+        "function_over_decoration",
+        "consistency_over_creativity",
+        "minimalism_over_visual_noise"
+      ],
+
+      "constraints": {
+        "framework": {
+          "allowed": [
+            "blade",
+            "tailwind",
+            "bootstrap"
+          ],
+          "forbidden": [
+            "react",
+            "vue",
+            "alpine_complex_logic",
+            "frontend_state_management"
+          ]
+        },
+
+        "blade_rules": {
+          "allowed": [
+            "html_structure",
+            "blade_sections",
+            "simple_conditions",
+            "simple_loops"
+          ],
+          "forbidden": [
+            "business_logic",
+            "data_processing",
+            "string_manipulation",
+            "validation_logic"
+          ]
+        },
+
+        "javascript_rules": {
+          "allowed": [
+            "copy_to_clipboard",
+            "simple_dom_interaction"
+          ],
+          "forbidden": [
+            "complex_state",
+            "api_abstraction",
+            "heavy_dom_manipulation"
+          ]
+        }
+      },
+
+      "ui_rules": {
+        "layout": {
+          "single_responsibility": true,
+          "tool_does_not_override_global_layout": true
+        },
+        "forms": {
+          "minimal_fields": true,
+          "single_primary_action": true,
+          "clear_labels": true
+        },
+        "feedback": {
+          "immediate_result": true,
+          "clear_error_message": true,
+          "no_modal_confirmation": true
+        }
+      },
+
+      "accessibility": {
+        "semantic_html": true,
+        "label_input_association": true,
+        "keyboard_friendly": true
+      },
+
+      "performance": {
+        "no_unnecessary_assets": true,
+        "no_external_trackers": true
+      }
+    },
+
     "backend_builder": {
       "role": "Laravel Backend Engineer",
       "mission": "Implement backend logic strictly following Laravel golden rules",

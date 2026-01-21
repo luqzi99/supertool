@@ -25,6 +25,12 @@ class ToolsController extends Controller
                 'route' => 'tools.base64.show',
                 'icon' => '🔐',
             ],
+            [
+                'name' => 'JSON Formatter & Validator',
+                'description' => 'Format messy JSON and validate JSON syntax',
+                'route' => 'tools.json-formatter.show',
+                'icon' => '📋',
+            ],
         ];
 
         return view('tools.index', ['tools' => $tools]);

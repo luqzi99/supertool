@@ -4,6 +4,7 @@ use App\Http\Controllers\ToolsController;
 use App\Tools\WhatsappLink\GenerateWhatsappLinkController;
 use App\Tools\WebsitePing\CheckWebsiteController;
 use App\Tools\Base64EncoderDecoder\Base64Controller;
+use App\Tools\JsonFormatter\JsonFormatterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,3 +31,9 @@ Route::get('/tools/base64', [Base64Controller::class, 'show'])
 
 Route::post('/tools/base64', [Base64Controller::class, 'process'])
     ->name('tools.base64.process');
+
+Route::get('/tools/json-formatter', [JsonFormatterController::class, 'show'])
+    ->name('tools.json-formatter.show');
+
+Route::post('/tools/json-formatter', [JsonFormatterController::class, 'process'])
+    ->name('tools.json-formatter.process');

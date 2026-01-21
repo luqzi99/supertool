@@ -1,0 +1,111 @@
+{
+  "tool": "json-formatter",
+  "version": "1.0.0",
+
+  "inherits": [
+    "global_rules",
+    "agents.tool_designer",
+    "agents.backend_builder"
+  ],
+
+  "objective": "Format messy JSON and validate JSON syntax with clear error messages",
+
+  "scope": {
+    "included": [
+      "json_validation",
+      "json_formatting_pretty_print",
+      "syntax_error_detection",
+      "human_readable_error_messages"
+    ],
+    "excluded": [
+      "json_minification",
+      "json_schema_validation",
+      "json_to_xml_conversion",
+      "json_path_queries",
+      "persistent_storage",
+      "file_upload_parsing"
+    ]
+  },
+
+  "inputs": {
+    "json_text": {
+      "required": true,
+      "type": "string",
+      "description": "Raw JSON text to format and validate",
+      "rules": [
+        "not_empty",
+        "max_length_500000",
+        "utf8_encoding"
+      ]
+    }
+  },
+
+  "processing": [
+    "validate_input_not_empty",
+    "attempt_json_decode",
+    "catch_syntax_errors_with_line_position",
+    "if_valid_format_with_pretty_print",
+    "return_formatted_json_or_error",
+    "no_storage",
+    "no_logging",
+    "no_side_effects"
+  ],
+
+  "outputs": {
+    "success": {
+      "description": "Formatted JSON with proper indentation",
+      "format": "string",
+      "example": "{\n  \"name\": \"John\",\n  \"age\": 30\n}"
+    },
+    "error": {
+      "style": [
+        "human_readable",
+        "stateless",
+        "non_technical"
+      ],
+      "examples": [
+        "Invalid JSON syntax at line 3: Expected comma or closing brace.",
+        "JSON input is required.",
+        "JSON is too large. Maximum 500,000 characters allowed."
+      ]
+    }
+  },
+
+  "ux": {
+    "flow": "single_step",
+    "fields": "minimal",
+    "output_timing": "immediate",
+    "copy_ready": true
+  },
+
+  "security": [
+    "escape_output",
+    "prevent_xss",
+    "no_sessions",
+    "no_tracking",
+    "no_persistent_storage",
+    "prevent_code_execution_in_json"
+  ],
+
+  "performance": {
+    "expected_execution_time_ms": "< 200",
+    "blocking_operations": false
+  },
+
+  "extensibility": {
+    "tool_removable": true,
+    "no_global_override": true,
+    "self_registered": true,
+    "configurable_without_code_change": false
+  },
+
+  "non_goals": [
+    "JSON minification (compact output)",
+    "JSON Schema validation",
+    "Converting JSON to other formats (XML, YAML, CSV)",
+    "JSON path/query operations",
+    "Saving/loading JSON files",
+    "JSON comparison or diffing",
+    "Multiple indent size options (always 2 spaces)"
+  ]
+}

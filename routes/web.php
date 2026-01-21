@@ -3,6 +3,7 @@
 use App\Http\Controllers\ToolsController;
 use App\Tools\WhatsappLink\GenerateWhatsappLinkController;
 use App\Tools\WebsitePing\CheckWebsiteController;
+use App\Tools\Base64EncoderDecoder\Base64Controller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,3 +24,9 @@ Route::get('/tools/website-ping', [CheckWebsiteController::class, 'show'])
 
 Route::post('/tools/website-ping', [CheckWebsiteController::class, 'check'])
     ->name('tools.website-ping.check');
+
+Route::get('/tools/base64', [Base64Controller::class, 'show'])
+    ->name('tools.base64.show');
+
+Route::post('/tools/base64', [Base64Controller::class, 'process'])
+    ->name('tools.base64.process');

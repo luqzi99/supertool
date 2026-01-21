@@ -1,0 +1,122 @@
+{
+  "tool": "base64-encoder-decoder",
+  "version": "1.0.0",
+
+  "inherits": [
+    "global_rules",
+    "agents.tool_designer",
+    "agents.backend_builder"
+  ],
+
+  "objective": "Encode plain text to Base64 or decode Base64 strings back to plain text",
+
+  "scope": {
+    "included": [
+      "encode_plain_text_to_base64",
+      "decode_base64_to_plain_text",
+      "bidirectional_transformation",
+      "utf8_support"
+    ],
+    "excluded": [
+      "file_encoding",
+      "binary_data_encoding",
+      "image_encoding",
+      "data_uri_generation",
+      "batch_processing",
+      "persistent_history"
+    ]
+  },
+
+  "inputs": {
+    "text": {
+      "required": true,
+      "type": "string",
+      "description": "The text to encode or decode",
+      "rules": [
+        "not_empty",
+        "max_length_100000",
+        "utf8_encoding"
+      ]
+    },
+    "mode": {
+      "required": true,
+      "type": "string",
+      "description": "Operation mode: encode or decode",
+      "rules": [
+        "must_be_encode_or_decode"
+      ]
+    }
+  },
+
+  "processing": [
+    "validate_mode",
+    "validate_text_input",
+    "if_encode_apply_base64_encode",
+    "if_decode_validate_base64_format",
+    "if_decode_apply_base64_decode",
+    "no_storage",
+    "no_logging",
+    "no_side_effects"
+  ],
+
+  "outputs": {
+    "success": {
+      "description": "Base64 encoded string or decoded plain text",
+      "format": "string",
+      "example": {
+        "encode": "SGVsbG8gV29ybGQ=",
+        "decode": "Hello World"
+      }
+    },
+    "error": {
+      "style": [
+        "human_readable",
+        "stateless",
+        "non_technical"
+      ],
+      "examples": [
+        "Invalid Base64 string. Please check your input.",
+        "Text input is required.",
+        "Text is too long. Maximum 100,000 characters allowed."
+      ]
+    }
+  },
+
+  "ux": {
+    "flow": "single_step",
+    "fields": "minimal",
+    "output_timing": "immediate",
+    "copy_ready": true
+  },
+
+  "security": [
+    "escape_output",
+    "prevent_xss",
+    "no_sessions",
+    "no_tracking",
+    "no_persistent_storage",
+    "validate_base64_format_on_decode"
+  ],
+
+  "performance": {
+    "expected_execution_time_ms": "< 100",
+    "blocking_operations": false
+  },
+
+  "extensibility": {
+    "tool_removable": true,
+    "no_global_override": true,
+    "self_registered": true,
+    "configurable_without_code_change": false
+  },
+
+  "non_goals": [
+    "File encoding/decoding",
+    "Binary data handling",
+    "Image to Base64 conversion",
+    "Data URI generation",
+    "Encoding history or saved results",
+    "URL-safe Base64 variants",
+    "Multiple encoding formats (only standard Base64)"
+  ]
+}

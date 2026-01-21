@@ -13,6 +13,12 @@ class ToolsController extends Controller
                 'route' => 'whatsapp-link.show',
                 'icon' => '💬',
             ],
+            [
+                'name' => 'Website Ping Checker',
+                'description' => 'Check if a website is reachable and responding',
+                'route' => 'tools.website-ping.show',
+                'icon' => '🌐',
+            ],
         ];
 
         return view('tools.index', ['tools' => $tools]);

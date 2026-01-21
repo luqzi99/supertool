@@ -1,0 +1,105 @@
+{
+  "tool": "website-ping",
+  "version": "1.0.0",
+
+  "inherits": [
+    "global_rules",
+    "agents.tool_designer",
+    "agents.backend_builder"
+  ],
+
+  "objective": "Check whether a website is reachable and responding via HTTP request",
+
+  "scope": {
+    "included": [
+      "single_http_request",
+      "response_status_check",
+      "response_time_measurement"
+    ],
+    "excluded": [
+      "uptime_monitoring",
+      "periodic_check",
+      "data_persistence",
+      "alerting",
+      "authentication_bypass"
+    ]
+  },
+
+  "inputs": {
+    "url": {
+      "required": true,
+      "type": "string",
+      "description": "Website URL to be checked",
+      "rules": [
+        "must_be_valid_url",
+        "http_or_https_only",
+        "no_internal_ip",
+        "no_localhost"
+      ]
+    }
+  },
+
+  "processing": [
+    "validate_url",
+    "send_single_http_request",
+    "measure_response_time",
+    "no_storage",
+    "no_logging"
+  ],
+
+  "outputs": {
+    "success": {
+      "description": "Website is reachable",
+      "format": "json",
+      "example": {
+        "status": "online",
+        "http_code": 200,
+        "response_time_ms": 183
+      }
+    },
+    "error": {
+      "style": [
+        "human_readable",
+        "stateless",
+        "non_technical"
+      ],
+      "examples": [
+        "Website is not reachable.",
+        "Request timed out.",
+        "Invalid URL."
+      ]
+    }
+  },
+
+  "ux": {
+    "flow": "single_step",
+    "fields": "minimal",
+    "output_timing": "immediate",
+    "copy_ready": false
+  },
+
+  "security": [
+    "prevent_ssrf",
+    "no_internal_network_access",
+    "timeout_limit",
+    "escape_output"
+  ],
+
+  "performance": {
+    "expected_execution_time_ms": "< 2000",
+    "blocking_operations": true
+  },
+
+  "extensibility": {
+    "tool_removable": true,
+    "no_global_override": true,
+    "self_registered": true
+  },
+
+  "non_goals": [
+    "Website monitoring",
+    "Uptime history",
+    "Alert notification",
+    "Performance benchmarking"
+  ]
+}

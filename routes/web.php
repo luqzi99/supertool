@@ -5,6 +5,7 @@ use App\Tools\WhatsappLink\GenerateWhatsappLinkController;
 use App\Tools\WebsitePing\CheckWebsiteController;
 use App\Tools\Base64EncoderDecoder\Base64Controller;
 use App\Tools\JsonFormatter\JsonFormatterController;
+use App\Tools\ImageConverter\ImageConverterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,3 +38,9 @@ Route::get('/tools/json-formatter', [JsonFormatterController::class, 'show'])
 
 Route::post('/tools/json-formatter', [JsonFormatterController::class, 'process'])
     ->name('tools.json-formatter.process');
+
+Route::get('/tools/image-converter', [ImageConverterController::class, 'index'])
+    ->name('tools.image-converter.index');
+
+Route::post('/tools/image-converter', [ImageConverterController::class, 'convert'])
+    ->name('tools.image-converter.convert');

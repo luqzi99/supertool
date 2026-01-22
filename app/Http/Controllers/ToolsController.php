@@ -31,6 +31,12 @@ class ToolsController extends Controller
                 'route' => 'tools.json-formatter.show',
                 'icon' => '📋',
             ],
+            [
+                'name' => 'Image Converter',
+                'description' => 'Convert, resize, and optimize images (PNG/JPG/WEBP)',
+                'route' => 'tools.image-converter.index',
+                'icon' => '🖼️',
+            ],
         ];
 
         return view('tools.index', ['tools' => $tools]);

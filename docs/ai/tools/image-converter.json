@@ -1,0 +1,127 @@
+{
+    "tool": "image-converter",
+    "version": "1.0.0",
+    "inherits": [
+        "global_rules",
+        "agents.tool_designer",
+        "agents.backend_builder"
+    ],
+    "objective": "Convert images between different formats (PNG, JPG, WEBP, GIF) with optional resizing and quality adjustment.",
+    "scope": {
+        "included": [
+            "format_conversion",
+            "resize_image",
+            "adjust_quality",
+            "maintain_aspect_ratio"
+        ],
+        "excluded": [
+            "advanced_editing",
+            "filters",
+            "watermarking",
+            "batch_processing_v1",
+            "persistent_storage_of_images"
+        ]
+    },
+    "inputs": {
+        "image": {
+            "required": true,
+            "type": "file",
+            "description": "The source image file to convert",
+            "rules": [
+                "mimes:jpeg,png,webp,gif",
+                "max_size_10mb"
+            ]
+        },
+        "format": {
+            "required": true,
+            "type": "string",
+            "description": "Target output format",
+            "rules": [
+                "in:jpeg,png,webp,gif"
+            ]
+        },
+        "quality": {
+            "required": false,
+            "type": "integer",
+            "description": "Output quality (1-100), mostly for JPEG/WEBP",
+            "rules": [
+                "min_1",
+                "max_100"
+            ]
+        },
+        "width": {
+            "required": false,
+            "type": "integer",
+            "description": "Target width in pixels",
+            "rules": [
+                "min_1",
+                "max_5000"
+            ]
+        },
+        "height": {
+            "required": false,
+            "type": "integer",
+            "description": "Target height in pixels",
+            "rules": [
+                "min_1",
+                "max_5000"
+            ]
+        }
+    },
+    "processing": [
+        "validate_inputs",
+        "load_image_into_memory",
+        "resize_if_needed",
+        "convert_format",
+        "optimize_output",
+        "return_blob_or_url",
+        "cleanup_temp_files"
+    ],
+    "outputs": {
+        "success": {
+            "description": "The converted image file download or data stream",
+            "format": "binary | url",
+            "example": "https://domain.com/storage/converted/image.webp"
+        },
+        "error": {
+            "style": [
+                "human_readable",
+                "stateless",
+                "non_technical"
+            ],
+            "examples": [
+                "Invalid image format provided.",
+                "Image file is too large (max 10MB).",
+                "Conversion to GIF failed."
+            ]
+        }
+    },
+    "ux": {
+        "flow": "single_step",
+        "fields": "moderate",
+        "output_timing": "on_submit",
+        "copy_ready": false
+    },
+    "security": [
+        "validate_mime_type_server_side",
+        "strip_metadata",
+        "generated_filenames_randomization",
+        "temp_file_cleanup"
+    ],
+    "performance": {
+        "expected_execution_time_ms": "< 2000",
+        "blocking_operations": true
+    },
+    "extensibility": {
+        "tool_removable": true,
+        "no_global_override": true,
+        "self_registered": true,
+        "configurable_without_code_change": false
+    },
+    "non_goals": [
+        "Complex photo editing (crop, rotate, filters)",
+        "OCR features",
+        "Metadata editing",
+        "Vector conversion (SVG)"
+    ]
+}

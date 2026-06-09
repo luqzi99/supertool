@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder/Decoder - Supertool</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        textarea { resize: vertical; font-family: Consolas, Monaco, 'Courier New', monospace; }
+        .mode-selector { margin: 16px 0; display: flex; gap: 24px; }
+        .mode-selector label {
+            display: inline-flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+            margin-top: 0;
+        }
+        .mode-selector input[type="radio"] { width: auto; margin-right: 8px; }
+        .result { font-family: Consolas, Monaco, 'Courier New', monospace; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Supertool</a>
+            <nav><a href="index.html">Tools</a></nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-card">
+            <h1>Base64 Encoder/Decoder</h1>
+            <p class="description">Encode plain text to Base64 or decode Base64 strings back to plain text</p>
+
+            <div class="mode-selector">
+                <label><input type="radio" name="mode" value="encode" checked> Encode</label>
+                <label><input type="radio" name="mode" value="decode"> Decode</label>
+            </div>
+
+            <label for="inputText">Input Text:</label>
+            <textarea id="inputText" rows="6" placeholder="Enter text to encode or Base64 string to decode..."></textarea>
+
+            <div class="error" id="errorMsg" style="display:none"></div>
+
+            <button class="btn" onclick="convert()">Convert</button>
+
+            <div class="result" id="result" style="display:none">
+                <strong>Result:</strong>
+                <div id="resultText" style="margin-top:8px; word-break:break-all;"></div>
+                <button class="btn btn-green" onclick="copyResult()">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convert() {
+            const text = document.getElementById('inputText').value;
+            const mode = document.querySelector('input[name="mode"]:checked').value;
+            const errorEl = document.getElementById('errorMsg');
+            const resultEl = document.getElementById('result');
+
+            if (!text) {
+                errorEl.textContent = 'Input text is required.';
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+
+            try {
+                let output;
+                if (mode === 'encode') {
+                    output = btoa(unescape(encodeURIComponent(text)));
+                } else {
+                    try {
+                        output = decodeURIComponent(escape(atob(text.trim())));
+                    } catch {
+                        errorEl.textContent = 'Invalid Base64 string. Please check your input.';
+                        errorEl.style.display = 'block';
+                        resultEl.style.display = 'none';
+                        return;
+                    }
+                }
+                document.getElementById('resultText').textContent = output;
+                resultEl.style.display = 'block';
+            } catch (e) {
+                errorEl.textContent = 'Conversion failed: ' + e.message;
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+            }
+        }
+
+        function copyResult() {
+            const text = document.getElementById('resultText').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy to Clipboard', 1500);
+            });
+        }
+    </script>
+</body>
+</html>

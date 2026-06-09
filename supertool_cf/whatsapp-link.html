@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Link Generator - Supertool</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .result a { color: #25D366; word-break: break-all; text-decoration: none; }
+        .result a:hover { text-decoration: underline; }
+        textarea { resize: vertical; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Supertool</a>
+            <nav><a href="index.html">Tools</a></nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-card">
+            <h1>WhatsApp Link Generator</h1>
+            <p class="description">Generate a WhatsApp chat link without saving phone numbers</p>
+
+            <label for="phone">Phone Number (with country code):</label>
+            <input type="text" id="phone" placeholder="e.g. 601234567890" autocomplete="off">
+
+            <label for="message">Message (optional):</label>
+            <textarea id="message" rows="4" placeholder="Pre-filled message (optional)" maxlength="500"></textarea>
+
+            <div class="error" id="errorMsg" style="display:none"></div>
+
+            <button class="btn btn-whatsapp" onclick="generateLink()">Generate Link</button>
+
+            <div class="result" id="result" style="display:none">
+                <strong>Your WhatsApp Link:</strong>
+                <a id="linkOutput" href="#" target="_blank"></a>
+                <br><br>
+                <button class="btn btn-green" onclick="copyLink()">Copy Link</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateLink() {
+            const phone = document.getElementById('phone').value.trim().replace(/\D/g, '');
+            const message = document.getElementById('message').value.trim();
+            const errorEl = document.getElementById('errorMsg');
+            const resultEl = document.getElementById('result');
+
+            if (!phone) {
+                errorEl.textContent = 'Phone number is required.';
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+                return;
+            }
+            if (!/^\d{7,15}$/.test(phone)) {
+                errorEl.textContent = 'Please enter a valid phone number with country code (7–15 digits).';
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+
+            let url = `https://wa.me/${phone}`;
+            if (message) url += `?text=${encodeURIComponent(message)}`;
+
+            const link = document.getElementById('linkOutput');
+            link.href = url;
+            link.textContent = url;
+            resultEl.style.display = 'block';
+        }
+
+        function copyLink() {
+            const text = document.getElementById('linkOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy Link', 1500);
+            });
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Enter') generateLink(); });
+    </script>
+</body>
+</html>

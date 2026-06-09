@@ -37,6 +37,12 @@ class ToolsController extends Controller
                 'route' => 'tools.image-converter.index',
                 'icon' => '🖼️',
             ],
+            [
+                'name' => 'MOLPay Skey Generator',
+                'description' => 'Generate MOLPay payout security key (skey) from operator, bank details, and private vkey',
+                'route' => 'tools.molpay-skey.show',
+                'icon' => '🔑',
+            ],
         ];
 
         return view('tools.index', ['tools' => $tools]);

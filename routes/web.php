@@ -6,6 +6,7 @@ use App\Tools\WebsitePing\CheckWebsiteController;
 use App\Tools\Base64EncoderDecoder\Base64Controller;
 use App\Tools\JsonFormatter\JsonFormatterController;
 use App\Tools\ImageConverter\ImageConverterController;
+use App\Tools\MolpaySkey\MolpaySkeyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,3 +45,9 @@ Route::get('/tools/image-converter', [ImageConverterController::class, 'index'])
 
 Route::post('/tools/image-converter', [ImageConverterController::class, 'convert'])
     ->name('tools.image-converter.convert');
+
+Route::get('/tools/molpay-skey', [MolpaySkeyController::class, 'show'])
+    ->name('tools.molpay-skey.show');
+
+Route::post('/tools/molpay-skey', [MolpaySkeyController::class, 'generate'])
+    ->name('tools.molpay-skey.generate');

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Ping Checker - Supertool</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .result-online {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 18px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .result-online .result-title { font-weight: bold; color: #166534; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .result-row { display: flex; justify-content: space-between; margin: 6px 0; color: #166534; font-size: 0.95rem; }
+        .result-label { font-weight: 600; }
+        .result-offline {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 18px;
+            margin-top: 20px;
+            border-radius: 5px;
+            color: #991b1b;
+        }
+        .result-offline .result-title { font-weight: bold; margin-bottom: 8px; }
+        .spinner {
+            display: inline-block;
+            width: 16px; height: 16px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Supertool</a>
+            <nav><a href="index.html">Tools</a></nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-card">
+            <h1>Website Ping Checker</h1>
+            <p class="description">Check if a website is reachable and responding</p>
+
+            <label for="urlInput">Website URL:</label>
+            <input type="url" id="urlInput" placeholder="https://example.com" autocomplete="off">
+
+            <div class="error" id="errorMsg" style="display:none"></div>
+
+            <button class="btn" id="checkBtn" onclick="checkSite()">Check Status</button>
+
+            <div id="resultOnline" class="result-online" style="display:none">
+                <div class="result-title">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Website is Online
+                </div>
+                <div class="result-row"><span class="result-label">Status:</span><span id="statusText"></span></div>
+                <div class="result-row"><span class="result-label">HTTP Code:</span><span id="httpCode"></span></div>
+                <div class="result-row"><span class="result-label">Response Time:</span><span id="responseTime"></span></div>
+            </div>
+
+            <div id="resultOffline" class="result-offline" style="display:none">
+                <div class="result-title">❌ Website is Unreachable</div>
+                <div id="offlineReason" style="font-size:0.9rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function checkSite() {
+            const url = document.getElementById('urlInput').value.trim();
+            const errorEl = document.getElementById('errorMsg');
+            const btn = document.getElementById('checkBtn');
+
+            document.getElementById('resultOnline').style.display = 'none';
+            document.getElementById('resultOffline').style.display = 'none';
+            errorEl.style.display = 'none';
+
+            if (!url) {
+                errorEl.textContent = 'URL is required.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            try { new URL(url); } catch {
+                errorEl.textContent = 'Please enter a valid URL including https:// or http://';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Checking...';
+
+            try {
+                const res = await fetch(`/functions/ping?url=${encodeURIComponent(url)}`);
+                const data = await res.json();
+
+                if (data.ok) {
+                    document.getElementById('statusText').textContent = 'ONLINE';
+                    document.getElementById('httpCode').textContent = data.status;
+                    document.getElementById('responseTime').textContent = data.duration_ms + ' ms';
+                    document.getElementById('resultOnline').style.display = 'block';
+                } else {
+                    document.getElementById('offlineReason').textContent = data.error || 'Could not reach the server.';
+                    document.getElementById('resultOffline').style.display = 'block';
+                }
+            } catch (e) {
+                errorEl.textContent = 'Request failed. Please try again.';
+                errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Check Status';
+            }
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Enter') checkSite(); });
+    </script>
+</body>
+</html>

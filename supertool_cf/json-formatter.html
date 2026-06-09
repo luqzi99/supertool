@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter & Validator - Supertool</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container { max-width: 800px; }
+        textarea {
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            resize: vertical;
+            min-height: 200px;
+            font-size: 14px;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+        }
+        .result pre {
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 10px 0;
+            color: #333;
+        }
+        .success-badge { color: #10b981; margin-right: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Supertool</a>
+            <nav><a href="index.html">Tools</a></nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-card">
+            <h1>JSON Formatter & Validator</h1>
+            <p class="description">Format messy JSON and validate JSON syntax with clear error messages</p>
+
+            <label for="jsonInput">JSON Input:</label>
+            <textarea id="jsonInput" rows="12" placeholder='Enter your JSON here... e.g. {"name":"John","age":30}'></textarea>
+
+            <div class="error" id="errorMsg" style="display:none"></div>
+
+            <button class="btn" onclick="formatJson()">Format & Validate</button>
+
+            <div class="result" id="result" style="display:none; margin-top:20px;">
+                <strong><span class="success-badge">✓</span>Valid JSON — Formatted:</strong>
+                <pre id="formattedJson"></pre>
+                <button class="btn btn-green" onclick="copyResult()">Copy Formatted JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatJson() {
+            const input = document.getElementById('jsonInput').value.trim();
+            const errorEl = document.getElementById('errorMsg');
+            const resultEl = document.getElementById('result');
+
+            if (!input) {
+                errorEl.textContent = 'JSON input is required.';
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(input);
+                const formatted = JSON.stringify(parsed, null, 2);
+                document.getElementById('formattedJson').textContent = formatted;
+                errorEl.style.display = 'none';
+                resultEl.style.display = 'block';
+            } catch (e) {
+                errorEl.innerHTML = '<strong>❌ Validation Error:</strong><br>' + e.message;
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+            }
+        }
+
+        function copyResult() {
+            const text = document.getElementById('formattedJson').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy Formatted JSON', 1500);
+            });
+        }
+    </script>
+</body>
+</html>

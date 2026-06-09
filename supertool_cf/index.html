@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supertool</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container { max-width: 1200px; margin: 40px auto; padding: 20px; }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .tool-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        .tool-icon { font-size: 2.8rem; margin-bottom: 14px; }
+        .tool-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; color: #667eea; }
+        .tool-description { color: #666; font-size: 0.92rem; }
+        h1 { margin-bottom: 28px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Supertool</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Available Tools</h1>
+        <div class="tools-grid">
+            <a href="whatsapp-link.html" class="tool-card">
+                <div class="tool-icon">💬</div>
+                <div class="tool-name">WhatsApp Link Generator</div>
+                <div class="tool-description">Generate WhatsApp chat links without saving phone numbers</div>
+            </a>
+            <a href="website-ping.html" class="tool-card">
+                <div class="tool-icon">🌐</div>
+                <div class="tool-name">Website Ping Checker</div>
+                <div class="tool-description">Check if a website is reachable and responding</div>
+            </a>
+            <a href="base64.html" class="tool-card">
+                <div class="tool-icon">🔐</div>
+                <div class="tool-name">Base64 Encoder/Decoder</div>
+                <div class="tool-description">Encode plain text to Base64 or decode Base64 strings</div>
+            </a>
+            <a href="json-formatter.html" class="tool-card">
+                <div class="tool-icon">📋</div>
+                <div class="tool-name">JSON Formatter & Validator</div>
+                <div class="tool-description">Format messy JSON and validate JSON syntax</div>
+            </a>
+            <a href="image-converter.html" class="tool-card">
+                <div class="tool-icon">🖼️</div>
+                <div class="tool-name">Image Converter</div>
+                <div class="tool-description">Convert, resize, and optimize images (PNG/JPG/WebP)</div>
+            </a>
+            <a href="molpay-skey.html" class="tool-card">
+                <div class="tool-icon">🔑</div>
+                <div class="tool-name">MOLPay Skey Generator</div>
+                <div class="tool-description">Generate MOLPay payout security key from operator, bank details, and private vkey</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

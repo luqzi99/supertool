@@ -1,0 +1,7 @@
+name = "supertool_cf"
+main = "_worker.js"
+compatibility_date = "2025-06-09"
+
+[assets]
+directory = "./supertool_cf"
+binding = "ASSETS"
